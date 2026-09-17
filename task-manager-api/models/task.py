@@ -20,7 +20,7 @@ class Task(db.Model):
     user = db.relationship('User', backref='tasks')
     category = db.relationship('Category', backref='tasks')
 
-    def to_dict(self):
+    def to_dict(self, include_relations=False):
         data = {}
         data['id'] = self.id
         data['title'] = self.title
@@ -33,6 +33,12 @@ class Task(db.Model):
         data['updated_at'] = str(self.updated_at)
         data['due_date'] = str(self.due_date) if self.due_date else None
         data['tags'] = self.tags.split(',') if self.tags else []
+        data['overdue'] = self.is_overdue()
+
+        if include_relations:
+            data['user_name'] = self.user.name if self.user else None
+            data['category_name'] = self.category.name if self.category else None
+
         return data
 
     def validate_status(self, new_status):

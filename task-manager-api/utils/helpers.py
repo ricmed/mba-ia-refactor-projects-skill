@@ -1,10 +1,6 @@
 from datetime import datetime
 import re
-import os
-import json
-import sys
-import math
-import hashlib
+import uuid
 
 def format_date(date_obj):
     if date_obj:
@@ -29,8 +25,6 @@ def sanitize_string(s):
     return s
 
 def generate_id():
-
-    import uuid
     return str(uuid.uuid4())
 
 def log_action(action, details=None):
